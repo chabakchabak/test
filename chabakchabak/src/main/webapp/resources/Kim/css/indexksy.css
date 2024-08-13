@@ -1,0 +1,404 @@
+@charset "UTF-8";
+
+/* Basic styling to emulate Tailwind's utility classes */
+.bg-white {
+	background-color: #ffffff;
+}
+
+.text-black {
+	color: #000000;
+}
+
+.min-h-screen {
+	min-height: 100vh;
+}
+
+.p-4 {
+	padding: 16px;
+}
+
+.flex {
+	display: flex;
+}
+
+.items-center {
+	align-items: center;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.space-x-4 {
+	gap: 16px;
+}
+
+.bg-gray-100 {
+	background-color: #e5e5e5;
+}
+
+.text-2xl {
+	font-size: 24px;
+}
+
+.font-bold {
+	font-weight: bold;
+}
+
+.hover\:text-yellow-500:hover {
+	color: #d69e2e;
+}
+
+.bg-gray-300 {
+	background-color: #d9d9d9;
+}
+
+.text-gray-700 {
+	color: #4a5568;
+}
+
+.grid {
+	display: grid;
+}
+
+.grid-cols-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.gap-4 {
+	gap: 16px;
+}
+
+.mt-4 {
+	margin-top: 16px;
+}
+
+.text-yellow-500 {
+	color: #e67300;
+}
+
+.text-gray-500 {
+	color: #556780;
+}
+
+/* Additional custom styles */
+.flex-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.5rem;
+	background-color: #c9c9c9;
+	margin-top: 0.5rem;
+}
+
+.flex-item {
+	flex: 1;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.flex-item:first-child {
+	text-align: left;
+	flex: none;
+}
+
+.flex-item:last-child {
+	text-align: right;
+	flex: none;
+}
+
+.user-info {
+	width: 100%;
+	max-width: 300px;
+	margin: 0 auto;
+	padding: 16px;
+}
+
+.user-info img {
+	border-radius: 50%;
+	width: 48px;
+	height: 48px;
+}
+
+.user-info .text-xl {
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+.user-info .text-sm {
+	font-size: 0.875rem;
+	color: #4a5568;
+}
+
+.user-info .bg-yellow-500 {
+	background-color: #ecc94b;
+	color: #1a202c;
+	padding: 0.5rem 1rem;
+	border-radius: 0.25rem;
+}
+
+.user-info .bg-gray-300 {
+	background-color: #e2e8f0;
+}
+
+.user-info .p-2 {
+	padding: 0.5rem;
+}
+
+.user-info .rounded {
+	border-radius: 0.25rem;
+}
+
+.user-info .mt-4 {
+	margin-top: 1rem;
+}
+
+.user-info .grid-cols-5 {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+}
+
+/* .user-info a {
+    background-color: #e2e8f0;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    text-decoration: none;
+    color: #1a202c;
+}
+ */
+tr.spacer td {
+	padding-top: 10px; /* 위쪽 간격 */
+	padding-bottom: 10px; /* 아래쪽 간격 */
+}
+
+.btn-warning {
+	background-color: #ecc94b;
+	color: #1a202c;
+	padding: 0.25rem 0.5rem; /* 패딩 값 조정 */
+	border-radius: 0.25rem;
+	font-size: 0.875rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.btn-warning:hover {
+	background-color: #d69e2e;
+}
+
+.btn-danger {
+	background-color: #e53e3e;
+	color: #ffffff;
+	padding: 0.25rem 0.5rem; /* 패딩 값 조정 */
+	border-radius: 0.25rem;
+	font-size: 0.875rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.btn-danger:hover {
+	background-color: #c53030;
+}
+
+/* 모든 tr 요소에서 hover 효과 제거 */
+tr:hover {
+	background-color: inherit;
+}
+
+#divDrop {
+    margin: auto;
+    width: 100%;
+    padding: 20px;
+    background: #f3f4f6;
+    border: 2px dashed #d1d5db;
+    text-align: center;
+    cursor: pointer;
+}
+
+#uploadedList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#uploadedList > li {
+    list-style-type: none;
+    flex: 1 1 100px;
+    position: relative;
+}
+
+#uploadedList > li img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+#uploadedList > li span {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.bigPictureWrapper {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.bigPicture img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+
+.main-container {
+	width: 795px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@media print {
+	body {
+		margin: 0 !important;
+	}
+}
+
+.main-containerck {
+	font-family: 'Lato';
+	width: 100%; /* 가로 길이를 조정합니다 */
+	max-width: 795px; /* 최대 가로 길이를 설정합니다 */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ck-content {
+	font-family: 'Lato';
+	line-height: 1.6;
+	min-width: 100%; /* 최소 가로 길이를 조정합니다 */
+	max-width: 100%; /* 최대 가로 길이를 조정합니다 */
+	min-height: 500px; /* 최소 세로 길이를 설정합니다 */
+	word-break: break-word;
+}
+
+.editor-container_classic-editor .editor-container__editor {
+	min-width: 100%; /* 최소 가로 길이를 조정합니다 */
+	max-width: 100%; /* 최대 가로 길이를 조정합니다 */
+	min-height: 500px; /* 최소 세로 길이를 설정합니다 */
+}
+
+/* 로그인 컨테이너 스타일 */
+.login-container {
+    background-color: #e5e5e5; /* 배경색을 페이지와 통일 */
+    padding: 1rem;
+    border-radius: 8px; /* 부드러운 모서리 */
+    width: 300px;
+    margin: 0 auto; /* 가운데 정렬 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+}
+
+/* 로그인 버튼 스타일 */
+.login-btn {
+    display: block;  /* a 태그는 기본적으로 inline이므로 block으로 변경 */
+    background-color: #f2994a; /* 주황색 배경 */
+    color: white; /* 흰색 텍스트 */
+    padding: 10px 20px;
+    border-radius: 20px; /* 둥근 모서리 */
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;  /* 텍스트 가운데 정렬 */
+    width: 100%; /* 버튼 너비를 100%로 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 약간의 그림자 */
+    transition: background-color 0.3s ease; /* 부드러운 배경색 전환 */
+    text-decoration: none;  /* 링크의 밑줄 제거 */
+}
+
+/* 로그인 버튼 호버 효과 */
+.login-btn:hover {
+    background-color: #e98e30; /* 살짝 어두운 주황색으로 변경 */
+}
+
+/* 링크 스타일 */
+.login-links {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 개별 링크 스타일 */
+.login-links a {
+    color: #555;
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.login-links a:hover {
+    text-decoration: underline;
+    color: #000; /* 호버 시 텍스트 색상 변경 */
+}
+
+
+/* login.jsp 스타일링 */
+/* login.jsp 스타일링 */
+.input-box {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input-box::placeholder {
+    color: #aaa;
+}
+
+.login-container {
+    background-color: #e5e5e5;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.login-btn {
+    display: block;
+    background-color: #f2994a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.login-btn:hover {
+    background-color: #e98e30;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+    color: #666;
+}

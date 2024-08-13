@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.chabakchabak.www.Kim.mapper.BoardMapper">
+	
+	
+<!-- 상단 공지 게시물 2개 노출 김세영 -->
+<select id="getLatestAnnounce" resultType="InformationBoardVo">
+    SELECT * FROM (
+        SELECT
+            boardno, 
+            title, 
+            nickname, 
+            regdate, 
+            updatedate, 
+            -- category
+            likes, 
+            views, 
+            replycount, 
+            '공지' as boardtype
+        FROM TBL_BOARD
+        WHERE BOARDTYPENO = 1 
+        ORDER BY regdate DESC
+    ) 
+    WHERE ROWNUM &lt;= 2
+</select>
+
+	
+<!-- 김세영 글 목록 (페이징) -->
+<select id="getListWithPagingKsy" resultType="InformationBoardVo">
+    SELECT * FROM (
+        SELECT 
+            ROWNUM rn, 
+            boardno,  
+            title, 
+            content, 
+            userid, 
+            nickname,  
+            regdate, 
+            updatedate, 
+            views,  
+            likes, 
+            replycount,
+            SUBSTR(title, INSTR(title, '[', 1) + 1, INSTR(title, ']', 1) - INSTR(title, '[', 1) - 1) AS category
+        FROM (
+            SELECT 
+                boardno, 
+                title, 
+                content,  
+                userid, 
+                nickname, 
+                regdate,  
+                updatedate, 
+                views, 
+                likes, 
+                replycount 
+            FROM 
+                TBL_BOARD
+            WHERE 
+                BOARDTYPENO = 5
+                <if test="category != null and category != ''">
+                    AND SUBSTR(title, INSTR(title, '[', 1) + 1, INSTR(title, ']', 1) - INSTR(title, '[', 1) - 1) = #{category}
+                </if>
+                <if test="type != null and keyword != null and type != '' and keyword != ''">
+                    AND (
+                        <trim prefix="(" suffix=")" prefixOverrides="or">
+                            <foreach item="type" collection="typeArr">
+                                <trim prefix="or">
+                                    <choose>
+                                        <when test="type == 'T'.toString()">
+                                            title like '%' || #{keyword} || '%'
+                                        </when>
+                                        <when test="type == 'C'.toString()">
+                                            content like '%' || #{keyword} || '%'
+                                        </when>
+                                        <when test="type == 'W'.toString()">
+                                            nickname like '%' || #{keyword} || '%'
+                                        </when>
+                                    </choose>
+                                </trim>
+                            </foreach>
+                        </trim>
+                    )
+                </if>
+            <choose>
+                <when test="sort == 'likes'">
+                    ORDER BY likes DESC
+                </when>
+                <when test="sort == 'views'">
+                    ORDER BY views DESC
+                </when>
+                <when test="sort == 'recent'">
+                    ORDER BY boardno DESC
+                </when>
+                <otherwise>
+                    ORDER BY boardno DESC
+                </otherwise>
+            </choose>
+        ) 
+        WHERE ROWNUM &lt;= #{pageNum} * #{amount}
+    ) 
+    WHERE rn &gt; (#{pageNum} - 1) * #{amount}
+</select>
+
+
+
+
+
+<!-- 김세영 getTotalCount 쿼리 정의 -->
+<select id="getTotalCountKsy" resultType="int" parameterType="InformationCriteria">
+    SELECT COUNT(*) 
+    FROM TBL_BOARD
+    <where>
+        BOARDTYPENO = 5
+        <if test="category != null and category != ''">
+            AND SUBSTR(title, INSTR(title, '[', 1) + 1, INSTR(title, ']', 1) - INSTR(title, '[', 1) - 1) = #{category}
+        </if>
+        <if test="type != null and keyword != null and type != '' and keyword != ''">
+            AND (
+                <trim prefix="(" suffix=")" prefixOverrides="or">
+                    <foreach item="type" collection="typeArr">
+                        <trim prefix="or">
+                            <choose>
+                                <when test="type == 'T'.toString()">
+                                    title like '%' || #{keyword} || '%'
+                                </when>
+                                <when test="type == 'C'.toString()">
+                                    content like '%' || #{keyword} || '%'
+                                </when>
+                                <when test="type == 'W'.toString()">
+                                    nickname like '%' || #{keyword} || '%'
+                                </when>
+                            </choose>
+                        </trim>
+                    </foreach>
+                </trim>
+            )
+        </if>
+    </where>
+</select>
+
+
+
+<!-- 김세영 주간 베스트 게시물 가져오기 -->
+<select id="getWeeklyBest" resultType="InformationBoardVo">
+    SELECT * FROM (
+        SELECT 
+            BOARDNO,
+            TITLE,
+            NICKNAME,
+            REGDATE,
+            UPDATEDATE,
+            LIKES,
+            VIEWS,
+            REPLYCOUNT
+        FROM 
+            TBL_BOARD
+        WHERE 
+            BOARDTYPENO = 5
+            AND REGDATE &gt;= SYSDATE - 7
+        ORDER BY 
+            VIEWS DESC, LIKES DESC
+    ) 
+    WHERE ROWNUM &lt;= 15
+</select>
+    
+    <!-- 오늘의 BEST 게시물 가져오기 김세영 -->
+	<select id="getTodayBest" resultType="InformationBoardVo">
+	    SELECT * 
+	    FROM (
+	        SELECT 
+	            BOARDNO,
+	            TITLE,
+	            NICKNAME,
+	            REGDATE,
+	            UPDATEDATE,
+	            LIKES, 
+	            VIEWS,
+	            REPLYCOUNT,
+	            (SELECT BOARDTYPE 
+	             FROM TBL_BOARD_TYPE 
+	             WHERE TBL_BOARD_TYPE.BOARDTYPENO = TBL_BOARD.BOARDTYPENO) AS BOARDNAME
+	        FROM 
+	            TBL_BOARD
+	        WHERE 
+	            REGDATE &gt;= TRUNC(SYSDATE)
+	        ORDER BY 
+	            VIEWS DESC, LIKES DESC
+	    )
+	    WHERE ROWNUM &lt;= 4
+	</select>
+
+
+
+		<!-- 글 등록 김세영 -->
+	<insert id="insertKsy">
+		insert into tbl_board
+		(boardNo, title, content, boardtypeno, nickname, userid)
+		values
+		(seq_board.nextval, #{title}, #{content}, 5, '토끼', 'rabbit')
+	</insert>
+
+		<!-- 글 등록 - 키 김세영 insertSelectKeyKsy(InformationBoardVo vo) vo.setBno(nextval) 처리 -->
+	<insert id="insertSelectKeyKsy" parameterType="InformationBoardVo">
+		<selectKey keyProperty="boardNo" resultType="Long" order="BEFORE">
+        SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+    	</selectKey>
+    	INSERT INTO TBL_BOARD (BOARDNO, TITLE, CONTENT, USERID, NICKNAME, BOARDTYPENO, REGDATE, UPDATEDATE)
+    	VALUES (#{boardNo}, #{title}, #{content}, 'rabbit', '토끼', 5, SYSDATE, SYSDATE)
+	</insert>
+
+	<!-- 글보기 김세영 -->
+	<select id="selectByBnoKsy" resultType="InformationBoardVo">
+    SELECT 
+        boardNo,
+        title,
+        content, 
+        userId,
+        nickName,
+        boardTypeNo,
+        regdate,
+        updatedate,
+        views,
+        likes,
+        replycount
+    FROM 
+        TBL_BOARD
+    WHERE 
+        boardNo = #{boardNo}
+	</select>
+
+
+	<!-- 글수정 김세영  -->
+	<update id="modifySelectKeyKsy">
+    update tbl_board set
+        title = #{title},
+        content = #{content}
+    where boardNo = #{boardNo}
+	</update>
+
+	
+	<!--  댓글 수 증가 -->
+	<update id="updateReplyCntKsy">
+	    UPDATE TBL_BOARD
+	    SET replyCount = replyCount + #{amount}
+	    WHERE boardNo = #{boardNo}
+	</update>
+	
+	
+	
+    <!-- 게시물 첨부파일 삭제 -->
+    <delete id="deleteAttachByBoardNo">
+        DELETE FROM tbl_attach 
+        WHERE boardNo = #{boardNo}
+    </delete>
+    
+    
+
+    <!-- 게시글에 달린 댓글 삭제 -->
+    <delete id="deleteRepliesByBoardNo">
+        DELETE FROM tbl_reply 
+        WHERE boardNo = #{boardNo}
+    </delete>
+
+    <!-- 게시글에 달린 좋아요 삭제 -->
+    <delete id="deleteBoardLikesByBoardNo">
+        DELETE FROM tbl_like 
+        WHERE boardNo = #{boardNo}
+    </delete>
+    
+    <!-- 게시글 삭제 -->
+    <delete id="deleteBoardByBoardNo">
+        DELETE FROM tbl_board 
+        WHERE boardNo = #{boardNo}
+    </delete>
+    
+    <!-- 조회수 증가 -->
+	<update id="updateCnt">
+		update tbl_board set
+		    VIEWS = VIEWS + 1
+		where boardNo = #{boardNo}
+	</update>
+    
+
+
+
+
+</mapper>
